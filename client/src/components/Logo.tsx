@@ -12,7 +12,7 @@ const Logo = () => {
         alt="logo"
         className="border border-gray-600 rounded-full w-[32px] max-[720px]:w-[28px] h-[32px] max-[720px]:h-[28px]"
       />
-      <span className="italic text-gray-500 text-2xl font-bold max-[720px]:text-[18px]">
+      <span className="italic text-gray-300 text-2xl font-bold max-[720px]:text-[18px]">
         Notebook
       </span>
     </Link>
