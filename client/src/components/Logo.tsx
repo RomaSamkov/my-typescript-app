@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
 
-type Props = {};
-
-const Logo = (props: Props) => {
+const Logo = () => {
   return (
     <Link
       to={"/"}
@@ -12,11 +10,11 @@ const Logo = (props: Props) => {
       <img
         src="/NOTEBOOK.webp"
         alt="logo"
-        width={32}
-        height={32}
-        className="border border-gray-600 rounded-full"
+        className="border border-gray-600 rounded-full w-[32px] max-[720px]:w-[28px] h-[32px] max-[720px]:h-[28px]"
       />
-      <span className="italic text-gray-500 text-2xl font-bold">Notebook</span>
+      <span className="italic text-gray-500 text-2xl font-bold max-[720px]:text-[18px]">
+        Notebook
+      </span>
     </Link>
   );
 };
