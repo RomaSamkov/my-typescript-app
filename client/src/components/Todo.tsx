@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface TodoType {
   id: number;
@@ -15,6 +15,19 @@ const Todo = () => {
     setTodos([...todos, { id: Date.now(), title: task, isCompleted: false }]);
     setTask("");
   };
+
+  const fetchTodos = async () => {
+    const response = await fetch("http://localhost:3000/api/todos");
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await response.json();
+    setTodos(data);
+  };
+
+  useEffect(() => {
+    fetchTodos();
+  });
 
   return (
     <div className="flex flex-col items-center justify-center">
