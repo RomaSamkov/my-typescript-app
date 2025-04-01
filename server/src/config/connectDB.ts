@@ -7,7 +7,11 @@ export const connectDB = async () => {
     const connection = await mongoose.connect(process.env.MONGO_URI as string);
     console.log("MONGODB connect: " + connection.connection.host);
   } catch (error) {
-    console.log("MONGODB connection is: " + error);
+    if (error instanceof Error) {
+      console.log("MONGODB connection is: " + error.message);
+    } else {
+      console.log("MONGODB connection failed with an unknown error");
+    }
     process.exit(1);
   }
 };
