@@ -1,6 +1,34 @@
-import { database } from "../db/database";
-import { Request, Response } from "express";
+import Todo from "../models/Todo";
+import { Request, Response, RequestHandler } from "express";
 
-export const getTodos = async (req: Request, res: Response) => {
-  res.send(database);
+export const getAllTodos = async (req: Request, res: Response) => {
+  try {
+    const todos = await Todo.find({});
+    res.status(200).json({ success: true, data: todos });
+  } catch (error) {
+    console.log("Error in fetching todos controller.", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const addTodo: RequestHandler = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const todo = req.body;
+  if (!todo.title) {
+    res.status(400).json({ message: "Title is required" });
+    return;
+  }
+
+  const newTodo = new Todo(todo);
+
+  try {
+    await newTodo.save();
+    res.status(201).json({ success: true, data: newTodo });
+  } catch (error) {
+    console.log("Error in saving todo controller.", error);
+
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
 };
