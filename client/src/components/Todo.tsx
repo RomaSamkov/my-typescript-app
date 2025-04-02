@@ -16,8 +16,8 @@ const Todo = () => {
     setTask("");
   };
 
-  const fetchTodos = async () => {
-    const response = await fetch("http://localhost:3000/api/todos");
+  const fetchAllTodos = async () => {
+    const response = await fetch("http://localhost:3000/api/notebook/todos");
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
@@ -26,7 +26,7 @@ const Todo = () => {
   };
 
   useEffect(() => {
-    fetchTodos();
+    fetchAllTodos();
   }, []);
 
   return (
