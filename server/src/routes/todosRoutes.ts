@@ -4,6 +4,6 @@ import { Router } from "express";
 const router = Router();
 
 router.get("/", getAllTodos);
-router.post("/addtodo", addTodo);
+router.post("/add", addTodo);
 
 export default router;
