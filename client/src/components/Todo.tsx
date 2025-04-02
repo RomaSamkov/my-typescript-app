@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 interface TodoType {
-  id: number;
+  _id: number;
   title: string;
   isCompleted: false;
 }
@@ -12,7 +12,7 @@ const Todo = () => {
 
   const addNewTask = () => {
     if (!task.trim()) return;
-    setTodos([...todos, { id: Date.now(), title: task, isCompleted: false }]);
+    setTodos([...todos, { _id: Date.now(), title: task, isCompleted: false }]);
     setTask("");
   };
 
@@ -21,13 +21,13 @@ const Todo = () => {
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
-    const data = await response.json();
+    const { data } = await response.json();
     setTodos(data);
   };
 
   useEffect(() => {
     fetchTodos();
-  });
+  }, []);
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -54,7 +54,7 @@ const Todo = () => {
       </div>
       <ol className="list-decimal">
         {todos.map((todo) => (
-          <li key={todo.id}>{todo.title}</li>
+          <li key={todo._id}>{todo.title}</li>
         ))}
       </ol>
     </div>
