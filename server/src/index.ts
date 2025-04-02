@@ -11,7 +11,7 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(cors());
-app.use("/api/todos", todosRoutes);
+app.use("/api/notebook/todos", todosRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
