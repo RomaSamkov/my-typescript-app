@@ -16,7 +16,6 @@ const initialState: TodoState = {
   status: "idle",
 };
 
-// Отримання списку todo з сервера
 export const fetchTodosAsync = createAsyncThunk(
   "todos/fetchTodos",
   async () => {
@@ -29,7 +28,6 @@ export const fetchTodosAsync = createAsyncThunk(
   }
 );
 
-// Додавання нового todo
 export const addTodoAsync = createAsyncThunk(
   "todos/addTodo",
   async (title: string) => {
