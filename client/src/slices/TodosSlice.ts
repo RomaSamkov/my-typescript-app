@@ -1,50 +1,61 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 
-interface Todo {
+export type TodoType = {
   _id: string;
   title: string;
   isCompleted: boolean;
-}
+};
 
-interface TodoState {
-  todos: Todo[];
-  status: "idle" | "loading" | "failed";
-}
+type TodoState = {
+  todos: TodoType[];
+  loading: boolean;
+  error: string | null;
+};
 
 const initialState: TodoState = {
   todos: [],
-  status: "idle",
+  loading: false,
+  error: null,
 };
 
-export const fetchTodosAsync = createAsyncThunk(
-  "todos/fetchTodos",
-  async () => {
-    const response = await fetch("http://localhost:3000/api/notebook/todos");
-    if (!response.ok) {
-      throw new Error("Failed to fetch todos");
-    }
-    const { data } = await response.json();
-    return data; // Повертаємо масив todo
-  }
-);
+// Async thunk to fetch todos
+export const fetchTodos = createAsyncThunk("todos/fetchTodos", async () => {
+  const res = await fetch("http://localhost:3000/api/notebook/todos");
+  const json = await res.json();
+  return json.data as TodoType[];
+});
 
-export const addTodoAsync = createAsyncThunk(
+// Async thunk to add a todo
+export const addTodo = createAsyncThunk(
   "todos/addTodo",
   async (title: string) => {
-    const response = await fetch(
-      "http://localhost:3000/api/notebook/todos/add",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title }),
-      }
-    );
+    const res = await fetch("http://localhost:3000/api/notebook/todos/add", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title }),
+    });
 
-    if (!response.ok) {
+    if (!res.ok) {
       throw new Error("Failed to add todo");
     }
 
-    return await response.json(); // Повертаємо додане завдання з `_id`
+    const json = await res.json();
+    return json.data as TodoType;
+  }
+);
+
+export const deleteTodo = createAsyncThunk(
+  "todos/deleteTodo",
+  async (id: string) => {
+    const res = await fetch(`http://localhost:3000/api/notebook/todos/${id}`, {
+      method: "DELETE",
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to delete todo");
+    }
+
+    return id; // Return the id of the deleted todo
   }
 );
 
@@ -54,85 +65,32 @@ const todoSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchTodosAsync.pending, (state) => {
-        state.status = "loading";
+      // fetchTodos
+      .addCase(fetchTodos.pending, (state) => {
+        state.loading = true;
+        state.error = null;
       })
       .addCase(
-        fetchTodosAsync.fulfilled,
-        (state, action: PayloadAction<Todo[]>) => {
+        fetchTodos.fulfilled,
+        (state, action: PayloadAction<TodoType[]>) => {
+          state.loading = false;
           state.todos = action.payload;
-          state.status = "idle";
         }
       )
-      .addCase(fetchTodosAsync.rejected, (state) => {
-        state.status = "failed";
+      .addCase(fetchTodos.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || "Something went wrong";
       })
-      .addCase(addTodoAsync.fulfilled, (state, action: PayloadAction<Todo>) => {
+
+      // addTodo
+      .addCase(addTodo.fulfilled, (state, action: PayloadAction<TodoType>) => {
         state.todos.push(action.payload);
+      })
+      // deleteTodo
+      .addCase(deleteTodo.fulfilled, (state, action: PayloadAction<string>) => {
+        state.todos = state.todos.filter((todo) => todo._id !== action.payload);
       });
   },
 });
 
 export default todoSlice.reducer;
-
-// import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-
-// interface Todo {
-//   _id: string;
-//   title: string;
-//   isCompleted: boolean;
-// }
-
-// interface TodoState {
-//   todos: Todo[];
-//   status: "idle" | "loading" | "failed";
-// }
-
-// const initialState: TodoState = {
-//   todos: [],
-//   status: "idle",
-// };
-
-// // Асинхронний екшен для додавання задачі
-// export const addTodoAsync = createAsyncThunk(
-//   "todos/addTodo",
-//   async (title: string) => {
-//     const response = await fetch(
-//       "http://localhost:3000/api/notebook/todos/add",
-//       {
-//         method: "POST",
-//         headers: { "Content-Type": "application/json" },
-//         body: JSON.stringify({ title }),
-//       }
-//     );
-
-//     if (!response.ok) {
-//       throw new Error("Failed to add todo");
-//     }
-
-//     return await response.json(); // Повертаємо додане завдання з сервера
-//   }
-// );
-
-// const todoSlice = createSlice({
-//   name: "todos",
-//   initialState,
-//   reducers: {
-//     // Видаляємо локальний addTodo, оскільки тепер він працює через сервер
-//   },
-//   extraReducers: (builder) => {
-//     builder
-//       .addCase(addTodoAsync.pending, (state) => {
-//         state.status = "loading";
-//       })
-//       .addCase(addTodoAsync.fulfilled, (state, action: PayloadAction<Todo>) => {
-//         state.todos.push(action.payload);
-//         state.status = "idle";
-//       })
-//       .addCase(addTodoAsync.rejected, (state) => {
-//         state.status = "failed";
-//       });
-//   },
-// });
-
-// export default todoSlice.reducer;
