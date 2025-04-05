@@ -32,3 +32,22 @@ export const addTodo: RequestHandler = async (
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
+
+export const deleteTodo: RequestHandler = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const todoId = req.params.id;
+
+  try {
+    const deletedTodo = await Todo.findByIdAndDelete(todoId);
+    if (!deletedTodo) {
+      res.status(404).json({ success: false, message: "Todo not found" });
+      return;
+    }
+    res.status(200).json({ success: true, data: deletedTodo });
+  } catch (error) {
+    console.log("Error in deleting todo controller.", error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
