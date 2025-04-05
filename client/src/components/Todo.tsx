@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../store";
 import { fetchTodos, addTodo, deleteTodo } from "../slices/TodosSlice";
+import { Trash2 } from "lucide-react";
 
 const Todo = () => {
   const [task, setTask] = useState("");
@@ -24,7 +25,7 @@ const Todo = () => {
     }
   };
 
-  const handleDelete = (id: string) => {
+  const handleDeleteTodo = (id: string) => {
     dispatch(deleteTodo(id));
   };
 
@@ -51,16 +52,18 @@ const Todo = () => {
       {loading && <p>Loading...</p>}
       {error && <p className="text-red-500">{error}</p>}
       <ol className="list-decimal mt-4">
-        {todos.map((todo) => (
-          <li key={todo._id}>
-            <>
-              <span>{todo.title}</span>
-            </>
+        {todos.map((todo, index) => (
+          <li key={todo._id} className="flex justify-between gap-3">
+            <div>
+              <span>{index + 1}. </span>
+              <span>{todo.title}. </span>
+            </div>
+
             <button
-              onClick={() => handleDelete(todo._id)}
-              className="text-red-500 hover:underline text-sm"
+              onClick={() => handleDeleteTodo(todo._id)}
+              className="cursor-pointer"
             >
-              ✖
+              <Trash2 size={18} className="hover:text-red-500" />
             </button>
           </li>
         ))}
