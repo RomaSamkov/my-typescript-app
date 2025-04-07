@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../store";
 import { fetchTodos, addTodo, deleteTodo } from "../slices/TodosSlice";
-import { Trash2 } from "lucide-react";
+import { Pencil, Save, Trash2 } from "lucide-react";
 
 const Todo = () => {
   const [task, setTask] = useState("");
   const dispatch = useDispatch<AppDispatch>();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { todos, loading, error } = useSelector(
     (state: RootState) => state.todos
   );
@@ -29,10 +30,13 @@ const Todo = () => {
     dispatch(deleteTodo(id));
   };
 
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
   return (
     <div className="flex flex-col items-center justify-center">
       <h2 className="p-4">Add a task to your TODO list:</h2>
-      <div className="flex items-center px-8">
+      <div className="flex items-center px-8 gap-4">
         <form onSubmit={(e) => e.preventDefault()}>
           <input
             type="text"
@@ -59,15 +63,62 @@ const Todo = () => {
               <span>{todo.title}. </span>
             </div>
 
-            <button
-              onClick={() => handleDeleteTodo(todo._id)}
-              className="cursor-pointer"
-            >
-              <Trash2 size={18} className="hover:text-red-500" />
-            </button>
+            <div className="flex gap-4">
+              <button
+                onClick={() => handleDeleteTodo(todo._id)}
+                className="cursor-pointer"
+              >
+                <Trash2 size={18} className="hover:text-red-500" />
+              </button>
+              {isModalOpen ? (
+                <div className="flex">
+                  <form>
+                    <input type="text" placeholder="edit todo ..." />
+                  </form>
+                  <button>
+                    <Save />
+                  </button>
+                </div>
+              ) : (
+                <button className="cursor-pointer" onClick={openModal}>
+                  <Pencil size={18} className="hover:text-gray-600" />
+                </button>
+              )}
+            </div>
           </li>
         ))}
       </ol>
+      {/* 📦 Модальне вікно */}
+      {isModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-800/85 z-50">
+          <div className="bg-gray-600 p-6 rounded shadow-lg min-w-[300px]">
+            <h3 className="text-lg font-bold mb-4">Редагувати тудушку</h3>
+            <div className="flex">
+              <form>
+                <input
+                  type="text"
+                  placeholder="edit todo ..."
+                  className="border rounded-2xl"
+                />
+              </form>
+              <button>
+                <Save />
+              </button>
+            </div>
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={closeModal}
+                className="bg-gray-300 px-4 py-1 rounded"
+              >
+                Скасувати
+              </button>
+              <button className="bg-blue-500 text-white px-4 py-1 rounded">
+                Зберегти
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
