@@ -1,13 +1,21 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../store";
-import { fetchTodos, addTodo, deleteTodo } from "../slices/TodosSlice";
-import { Pencil, Save, Trash2 } from "lucide-react";
+import {
+  fetchTodos,
+  addTodo,
+  deleteTodo,
+  editTodo,
+  TodoType,
+} from "../slices/TodosSlice";
+import { Pencil, Trash2 } from "lucide-react";
+import Modal from "./Modal";
 
 const Todo = () => {
   const [task, setTask] = useState("");
   const dispatch = useDispatch<AppDispatch>();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedTodo, setSelectedTodo] = useState<TodoType | null>(null);
   const { todos, loading, error } = useSelector(
     (state: RootState) => state.todos
   );
@@ -26,12 +34,27 @@ const Todo = () => {
     }
   };
 
+  const handleEditTodo = async (id: string, updatedTitle: string) => {
+    try {
+      await dispatch(editTodo({ id, title: updatedTitle }));
+      closeModal(); // Закриваємо модальне вікно після успішного редагування
+    } catch (err) {
+      console.error("Error editing todo:", err);
+    }
+  };
+
   const handleDeleteTodo = (id: string) => {
     dispatch(deleteTodo(id));
   };
 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const openModal = (todo: TodoType) => {
+    setSelectedTodo(todo);
+    setIsModalOpen(true);
+  };
+  const closeModal = () => {
+    setSelectedTodo(null);
+    setIsModalOpen(false);
+  };
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -70,54 +93,25 @@ const Todo = () => {
               >
                 <Trash2 size={18} className="hover:text-red-500" />
               </button>
-              {isModalOpen ? (
-                <div className="flex">
-                  <form>
-                    <input type="text" placeholder="edit todo ..." />
-                  </form>
-                  <button>
-                    <Save />
-                  </button>
-                </div>
-              ) : (
-                <button className="cursor-pointer" onClick={openModal}>
-                  <Pencil size={18} className="hover:text-gray-600" />
-                </button>
-              )}
+              <button
+                className="cursor-pointer"
+                onClick={() => openModal(todo)}
+              >
+                <Pencil size={18} className="hover:text-gray-600" />
+              </button>
             </div>
           </li>
         ))}
       </ol>
       {/* 📦 Модальне вікно */}
       {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-900/85 z-50">
-          <div className="flex  flex-col items-center bg-gray-700 p-6 rounded-2xl shadow-lg min-w-[300px]">
-            <h3 className="text-lg font-bold mb-4">Edit Todo</h3>
-            <div className="flex p-4">
-              <form>
-                <input
-                  type="text"
-                  placeholder="edit task ..."
-                  className="border rounded-2xl p-2 outline-white"
-                />
-              </form>
-              {/* <button>
-                <Save />
-              </button> */}
-            </div>
-            <div className="flex justify-end gap-2">
-              <button className="bg-blue-600 text-white px-6 py-1 rounded cursor-pointer hover:bg-blue-800">
-                Save
-              </button>
-              <button
-                onClick={closeModal}
-                className="bg-gray-500 px-4 py-1 rounded cursor-pointer hover:bg-gray-800"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
+        <Modal
+          closeModal={closeModal}
+          onSave={(updatedTitle) =>
+            selectedTodo && handleEditTodo(selectedTodo._id, updatedTitle)
+          }
+          currentTitle={selectedTodo?.title || ""}
+        />
       )}
     </div>
   );
