@@ -33,6 +33,31 @@ export const addTodo: RequestHandler = async (
   }
 };
 
+export const editTodo: RequestHandler = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const todoId = req.params.id;
+  const updates = req.body;
+
+  try {
+    const updatedTodo = await Todo.findByIdAndUpdate(todoId, updates, {
+      new: true, // Повертає оновлений документ
+      runValidators: true, // Виконує валідацію перед оновленням
+    });
+
+    if (!updatedTodo) {
+      res.status(404).json({ success: false, message: "Todo not found" });
+      return;
+    }
+
+    res.status(200).json({ success: true, data: updatedTodo });
+  } catch (error) {
+    console.log("Error in editing todo controller.", error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
 export const deleteTodo: RequestHandler = async (
   req: Request,
   res: Response
