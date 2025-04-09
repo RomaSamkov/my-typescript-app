@@ -37,7 +37,7 @@ const Todo = () => {
   const handleEditTodo = async (id: string, updatedTitle: string) => {
     try {
       await dispatch(editTodo({ id, title: updatedTitle }));
-      closeModal(); // Закриваємо модальне вікно після успішного редагування
+      closeModal();
     } catch (err) {
       console.error("Error editing todo:", err);
     }
@@ -54,6 +54,14 @@ const Todo = () => {
   const closeModal = () => {
     setSelectedTodo(null);
     setIsModalOpen(false);
+  };
+
+  const handleToggleCompleted = async (id: string, isCompleted: boolean) => {
+    try {
+      await dispatch(editTodo({ id, isCompleted: !isCompleted }));
+    } catch (err) {
+      console.error("Error toggling todo status:", err);
+    }
   };
 
   return (
@@ -81,29 +89,42 @@ const Todo = () => {
       <ol className="list-decimal mt-4">
         {todos.map((todo, index) => (
           <li key={todo._id} className="flex justify-between gap-3">
-            <div>
+            <div className="flex items-center gap-2">
               <span>{index + 1}. </span>
-              <span>{todo.title}. </span>
+              <input
+                type="checkbox"
+                name="checkbox"
+                id="checkbox"
+                checked={todo.isCompleted}
+                onChange={() =>
+                  handleToggleCompleted(todo._id, todo.isCompleted)
+                }
+              />
+              <span
+                className={todo.isCompleted ? "line-through text-gray-500" : ""}
+              >
+                {todo.title.trim()}.
+              </span>
             </div>
 
             <div className="flex gap-4">
-              <button
-                onClick={() => handleDeleteTodo(todo._id)}
-                className="cursor-pointer"
-              >
-                <Trash2 size={18} className="hover:text-red-500" />
-              </button>
               <button
                 className="cursor-pointer"
                 onClick={() => openModal(todo)}
               >
                 <Pencil size={18} className="hover:text-gray-600" />
               </button>
+              <button
+                onClick={() => handleDeleteTodo(todo._id)}
+                className="cursor-pointer"
+              >
+                <Trash2 size={18} className="hover:text-red-500" />
+              </button>
             </div>
           </li>
         ))}
       </ol>
-      {/* 📦 Модальне вікно */}
+      {/* 📦 Modal window */}
       {isModalOpen && (
         <Modal
           closeModal={closeModal}
