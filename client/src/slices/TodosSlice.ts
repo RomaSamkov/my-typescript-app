@@ -46,11 +46,19 @@ export const addTodo = createAsyncThunk(
 
 export const editTodo = createAsyncThunk(
   "todos/editTodo",
-  async ({ id, title }: { id: string; title: string }) => {
+  async ({
+    id,
+    title,
+    isCompleted,
+  }: {
+    id: string;
+    title?: string;
+    isCompleted?: boolean;
+  }) => {
     const res = await fetch(`http://localhost:3000/api/notebook/todos/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title }),
+      body: JSON.stringify({ title, isCompleted }),
     });
 
     if (!res.ok) {
