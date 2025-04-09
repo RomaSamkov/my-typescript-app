@@ -44,6 +44,24 @@ export const addTodo = createAsyncThunk(
   }
 );
 
+export const editTodo = createAsyncThunk(
+  "todos/editTodo",
+  async ({ id, title }: { id: string; title: string }) => {
+    const res = await fetch(`http://localhost:3000/api/notebook/todos/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title }),
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to edit todo");
+    }
+
+    const json = await res.json();
+    return json.data as TodoType; // Повертаємо оновлену тудушку
+  }
+);
+
 export const deleteTodo = createAsyncThunk(
   "todos/deleteTodo",
   async (id: string) => {
@@ -85,6 +103,14 @@ const todosSlice = createSlice({
       // addTodo
       .addCase(addTodo.fulfilled, (state, action: PayloadAction<TodoType>) => {
         state.todos.push(action.payload);
+      })
+      .addCase(editTodo.fulfilled, (state, action: PayloadAction<TodoType>) => {
+        const index = state.todos.findIndex(
+          (todo) => todo._id === action.payload._id
+        );
+        if (index !== -1) {
+          state.todos[index] = action.payload; // Оновлюємо тудушку в списку
+        }
       })
       // deleteTodo
       .addCase(deleteTodo.fulfilled, (state, action: PayloadAction<string>) => {
