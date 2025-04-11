@@ -45,13 +45,25 @@ const Header = () => {
           Notes
         </Link>
       </nav>
-      <div className="flex text-2xl font-bold text-gray-500 max-[720px]:hidden">
+      {/* <div className="flex text-2xl font-bold text-gray-500 max-[720px]:hidden">
         <span>😀</span>
         <p>User</p>
+      </div> */}
+      <div className="flex gap-1 text-2xl font-bold text-gray-500 max-[720px]:hidden">
+        <div className="font-serif duration-300 hover:drop-shadow-[0_0_1em_#646cffaa] bg-gray-600 border rounded-2xl px-2 text-gray-400 hover:text-gray-300 hover:after:scale-x-100 cursor-pointer">
+          Login
+        </div>
+
+        <div className="font-serif duration-300 hover:drop-shadow-[0_0_1em_#646cffaa] bg-gray-600 border rounded-2xl px-2 text-gray-400 hover:text-gray-300 hover:after:scale-x-100 cursor-pointer">
+          Register
+        </div>
       </div>
       {isOpen && (
         <div className="absolute top-16 right-4 bg-gray-600 text-white p-4 rounded-lg shadow-lg max-[720px]:block hidden">
-          <div className="block py-2 px-4 text-lg text-gray-300">😀User</div>
+          <div className="block py-2 px-4 text-lg text-gray-300">
+            <div>Login</div>
+            <div>Register</div>
+          </div>
           <Link
             to="/todos"
             className="block py-2 px-4 text-lg hover:bg-gray-700 rounded"
