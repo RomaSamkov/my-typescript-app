@@ -50,13 +50,19 @@ const Header = () => {
         <p>User</p>
       </div> */}
       <div className="flex gap-1 text-2xl font-bold text-gray-500 max-[720px]:hidden">
-        <div className="font-serif duration-300 hover:drop-shadow-[0_0_1em_#646cffaa] bg-gray-600 border rounded-2xl px-2 text-gray-400 hover:text-gray-300 hover:after:scale-x-100 cursor-pointer">
+        <Link
+          to="/login"
+          className="font-serif duration-300 hover:drop-shadow-[0_0_1em_#646cffaa] bg-gray-600 border rounded-2xl px-2 text-gray-400 hover:text-gray-300 hover:after:scale-x-100 cursor-pointer"
+        >
           Login
-        </div>
+        </Link>
 
-        <div className="font-serif duration-300 hover:drop-shadow-[0_0_1em_#646cffaa] bg-gray-600 border rounded-2xl px-2 text-gray-400 hover:text-gray-300 hover:after:scale-x-100 cursor-pointer">
+        <Link
+          to={"/register"}
+          className="font-serif duration-300 hover:drop-shadow-[0_0_1em_#646cffaa] bg-gray-600 border rounded-2xl px-2 text-gray-400 hover:text-gray-300 hover:after:scale-x-100 cursor-pointer"
+        >
           Register
-        </div>
+        </Link>
       </div>
       {isOpen && (
         <div className="absolute top-16 right-4 bg-gray-600 text-white p-4 rounded-lg shadow-lg max-[720px]:block hidden">
