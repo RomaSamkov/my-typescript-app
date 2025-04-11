@@ -25,12 +25,12 @@ const HomePage = () => {
   };
 
   return (
-    <p>
+    <div>
       <div>
         {user ? <p>Welcome, {user.username}!</p> : <p>Please log in.</p>}
       </div>
       <button onClick={handleLogout}>Logout</button>
-    </p>
+    </div>
   );
   // const { user } = useSelector((state: RootState) => state.auth);
   // return (
