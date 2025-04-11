@@ -8,7 +8,6 @@ type PrivateRouteProps = {
 
 const PrivateRoute = ({ children }: PrivateRouteProps) => {
   const { user } = useSelector((state: RootState) => state.auth);
-  console.log("user:", user);
 
   // Якщо користувач не залогінений, перенаправляємо на сторінку логіну
   if (!user) {
