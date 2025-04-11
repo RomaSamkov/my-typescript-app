@@ -75,10 +75,13 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     // Встановлення токена в кукі
     res.cookie(COOKIE_NAME, token, {
       httpOnly: true,
-      //   secure: true,
+      secure: true,
       maxAge: 3600000,
     }); // 1 година
-    res.status(200).json({ message: "Login successful" });
+    res.status(200).json({
+      message: "Login successful",
+      user: { username: user.username, email: user.email },
+    });
   } catch (error) {
     console.error("Error in login:", error);
     res.status(500).json({ message: "Internal server error" });
