@@ -13,8 +13,7 @@ const Register = () => {
   const handleRegister = async () => {
     if (!username || !email || !password) return;
     try {
-      const result = await dispatch(register({ username, email, password }));
-      console.log("Register result:", result);
+      await dispatch(register({ username, email, password }));
       alert("Registration successful!");
     } catch (err) {
       console.error(err);
@@ -22,7 +21,7 @@ const Register = () => {
   };
 
   return (
-    <div className="flex flex-col gap-2 items-center justify-center">
+    <div className="flex flex-col gap-2">
       <h2>Register</h2>
       <input
         type="text"
