@@ -8,6 +8,7 @@ import {
   fetchNotes,
 } from "../slices/NotesSlice";
 import ModalNotes from "./ModalNotes";
+import { Pencil, Trash2 } from "lucide-react";
 
 const Notes = () => {
   const [title, setTitle] = useState("");
@@ -87,7 +88,7 @@ const Notes = () => {
         />
         <button
           onClick={handleAddNote}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-800"
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-800 cursor-pointer"
         >
           Add Note
         </button>
@@ -109,15 +110,21 @@ const Notes = () => {
             <div className="flex gap-2">
               <button
                 onClick={() => openModal(note)}
-                className="text-blue-600 hover:underline"
+                // className="text-blue-600 hover:underline"
               >
-                Edit
+                <Pencil
+                  size={18}
+                  className="hover:text-gray-600 cursor-pointer"
+                />
               </button>
               <button
                 onClick={() => handleDeleteNote(note._id)}
-                className="text-red-600 hover:underline"
+                // className="text-red-600 hover:underline"
               >
-                Delete
+                <Trash2
+                  size={18}
+                  className="hover:text-red-500 cursor-pointer"
+                />
               </button>
             </div>
           </li>
