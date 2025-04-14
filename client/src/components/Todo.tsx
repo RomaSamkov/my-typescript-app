@@ -67,19 +67,19 @@ const Todo = () => {
   return (
     <div className="flex flex-col items-center justify-center">
       <h2 className="p-4">Add a task to your TODO list:</h2>
-      <div className="flex items-center px-8 gap-4">
+      <div className="flex flex-col items-center px-8 gap-4">
         <form onSubmit={(e) => e.preventDefault()}>
           <input
             type="text"
             value={task}
             onChange={(e) => setTask(e.target.value)}
             placeholder="your task ..."
-            className="border rounded-2xl px-4 py-2"
+            className="border rounded-2xl px-4 py-2 w-[300px] outline-amber-100"
           />
         </form>
         <button
           onClick={handleAddTodo}
-          className="border rounded-2xl bg-gray-700 p-2 cursor-pointer hover:bg-gray-300 hover:text-gray-800 hover:border-white"
+          className="border rounded-2xl bg-gray-700 p-2 cursor-pointer hover:bg-gray-300 hover:text-gray-800 hover:border-white w-[300px]"
         >
           Add <span className="max-[720px]:hidden">task</span>
         </button>
