@@ -29,7 +29,12 @@ const HomePage = () => {
       <div>
         {user ? <p>Welcome, {user.username}!</p> : <p>Please log in.</p>}
       </div>
-      <button onClick={handleLogout}>Logout</button>
+      <button
+        onClick={handleLogout}
+        className="bg-blue-600 text-white px-4 py-2 rounded-2xl hover:bg-blue-800 w-[300px] cursor-pointer"
+      >
+        Logout
+      </button>
     </div>
   );
   // const { user } = useSelector((state: RootState) => state.auth);
