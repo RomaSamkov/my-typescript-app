@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux";
 import { logout } from "../slices/authSlice";
 import { AppDispatch } from "../store";
+import { LogOut } from "lucide-react";
 
 const Logout = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -14,14 +15,7 @@ const Logout = () => {
     }
   };
 
-  return (
-    <button
-      onClick={handleLogout}
-      className="bg-blue-600 text-white px-4 py-2 rounded-2xl hover:bg-blue-800 w-[300px] cursor-pointer"
-    >
-      Logout
-    </button>
-  );
+  return <LogOut onClick={handleLogout} className="cursor-pointer" />;
 };
 
 export default Logout;
