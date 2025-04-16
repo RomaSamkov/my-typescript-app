@@ -1,9 +1,10 @@
 import { Link, useLocation } from "react-router-dom";
 import Logo from "./Logo";
 import { useState } from "react";
-import { LogOut, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
+import Logout from "./Logout";
 
 const active =
   "after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-gray-300 after:scale-x-0 after:transition-transform after:duration-300 hover:after:scale-x-100";
@@ -66,7 +67,7 @@ const Header = () => {
           </Link>
         </div>
       ) : (
-        <div>😀{user.username}</div>
+        <div className="max-[720px]:hidden">😀{user.username}</div>
       )}
       {isOpen && (
         <div className="absolute top-16 right-4 bg-gray-600 text-white p-4 rounded-lg shadow-lg max-[720px]:block hidden">
@@ -74,38 +75,40 @@ const Header = () => {
             <div className="flex flex-col gap-2 py-2 px-4 text-lg text-gray-300">
               <Link
                 to="/login"
-                className="font-serif duration-300 hover:drop-shadow-[0_0_1em_#646cffaa] bg-gray-600 border rounded-2xl px-2 text-gray-400 hover:text-gray-300 hover:after:scale-x-100 cursor-pointer"
+                className="font-serif duration-300 hover:drop-shadow-[0_0_1em_#646cffaa] bg-gray-600 border rounded-2xl px-2 text-white hover:text-gray-300 hover:after:scale-x-100 cursor-pointer"
               >
                 Login
               </Link>
 
               <Link
                 to={"/register"}
-                className="font-serif duration-300 hover:drop-shadow-[0_0_1em_#646cffaa] bg-gray-600 border rounded-2xl px-2 text-gray-400 hover:text-gray-300 hover:after:scale-x-100 cursor-pointer"
+                className="font-serif duration-300 hover:drop-shadow-[0_0_1em_#646cffaa] bg-gray-600 border rounded-2xl px-2 text-white hover:text-gray-300 hover:after:scale-x-100 cursor-pointer"
               >
                 Register
               </Link>
             </div>
           ) : (
-            <div>
+            <div className="flex pb-3">
               <div className="px-3">😀{user.username}</div>
-              <LogOut />
+              <Logout />
             </div>
           )}
-          <Link
-            to="/todos"
-            className="block py-2 px-4 text-lg hover:bg-gray-700 rounded"
-            onClick={() => setIsOpen(false)}
-          >
-            Todo
-          </Link>
-          <Link
-            to="/notes"
-            className="block py-2 px-4 text-lg hover:bg-gray-700 rounded"
-            onClick={() => setIsOpen(false)}
-          >
-            Notes
-          </Link>
+          <div className="flex flex-col gap-2 px-4 text-lg text-gray-300">
+            <Link
+              to="/todos"
+              className="text-lg font-serif duration-300 hover:drop-shadow-[0_0_1em_#646cffaa] bg-gray-600 border rounded-2xl px-2 text-white hover:text-gray-300 hover:after:scale-x-100 cursor-pointer"
+              onClick={() => setIsOpen(false)}
+            >
+              Todo
+            </Link>
+            <Link
+              to="/notes"
+              className="text-lg font-serif duration-300 hover:drop-shadow-[0_0_1em_#646cffaa] bg-gray-600 border rounded-2xl px-2 text-white hover:text-gray-300 hover:after:scale-x-100 cursor-pointer"
+              onClick={() => setIsOpen(false)}
+            >
+              Notes
+            </Link>
+          </div>
         </div>
       )}
     </div>
