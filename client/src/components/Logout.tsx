@@ -15,7 +15,13 @@ const Logout = () => {
     }
   };
 
-  return <LogOut onClick={handleLogout} className="cursor-pointer" />;
+  return (
+    <LogOut
+      size={18}
+      onClick={handleLogout}
+      className="cursor-pointer hover:text-red-700"
+    />
+  );
 };
 
 export default Logout;
