@@ -19,7 +19,7 @@ const Logout = () => {
     <LogOut
       size={18}
       onClick={handleLogout}
-      className="cursor-pointer hover:text-red-700"
+      className="cursor-pointer hover:text-red-500"
     />
   );
 };
