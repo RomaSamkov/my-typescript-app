@@ -67,7 +67,10 @@ const Header = () => {
           </Link>
         </div>
       ) : (
-        <div className="max-[720px]:hidden">😀{user.username}</div>
+        <div className="max-[720px]:hidden flex items-center gap-2">
+          <p>😀{user.username}</p>
+          <Logout />
+        </div>
       )}
       {isOpen && (
         <div className="absolute top-16 right-4 bg-gray-600 text-white p-4 rounded-lg shadow-lg max-[720px]:block hidden">
