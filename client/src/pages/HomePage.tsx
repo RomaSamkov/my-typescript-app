@@ -34,7 +34,7 @@ const HomePage = () => {
           </p>
         )}
       </div>
-      <div className="flex gap-4">
+      <div className="flex gap-4 text-2xl">
         <div>Todo</div>
         <div>Notes</div>
       </div>
