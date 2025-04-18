@@ -1,7 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store"; // Adjust the path to your store file
 import { useEffect } from "react";
-import { authCheck, logout } from "../slices/authSlice";
+import { authCheck } from "../slices/authSlice";
+import { Link } from "react-router-dom";
 
 const HomePage = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -15,34 +16,30 @@ const HomePage = () => {
     return <p>Loading...</p>;
   }
 
-  const handleLogout = async () => {
-    try {
-      await dispatch(logout());
-      alert("Logout successful!");
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   return (
-    <div>
+    <div className="flex flex-col items-center justify-center gap-4">
       <div>
-        {user ? <p>Welcome, {user.username}!</p> : <p>Please log in.</p>}
+        {user ? (
+          <p>Welcome, {user.username}!</p>
+        ) : (
+          <p className="text-2xl ">
+            Please{" "}
+            <Link
+              to={"/login"}
+              className="underline text-blue-600 hover:text-blue-800"
+            >
+              Log in
+            </Link>
+            , because saving do not work for unauthorized users.
+          </p>
+        )}
       </div>
-      <button
-        onClick={handleLogout}
-        className="bg-blue-600 text-white px-4 py-2 rounded-2xl hover:bg-blue-800 w-[300px] cursor-pointer"
-      >
-        Logout
-      </button>
+      <div>
+        <div>Todo</div>
+        <div>Notes</div>
+      </div>
     </div>
   );
-  // const { user } = useSelector((state: RootState) => state.auth);
-  // return (
-  //   <div className="flex justify-center gap-12">
-  //     {!user ? "No user" : `Hello ${user?.username}`}
-  //   </div>
-  // );
 };
 
 export default HomePage;
