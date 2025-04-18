@@ -35,8 +35,18 @@ const HomePage = () => {
         )}
       </div>
       <div className="flex gap-4 text-2xl">
-        <div>Todo</div>
-        <div>Notes</div>
+        <Link
+          to={"/todos"}
+          className="underline text-blue-600 hover:text-blue-800"
+        >
+          Todo
+        </Link>
+        <Link
+          to={"/notes"}
+          className="underline text-blue-600 hover:text-blue-800"
+        >
+          Notes
+        </Link>
       </div>
     </div>
   );
