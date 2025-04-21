@@ -34,18 +34,28 @@ const HomePage = () => {
           </p>
         )}
       </div>
-      <div className="flex gap-4 text-2xl">
+      <div className="flex gap-8 w-full max-w-4xl">
         <Link
           to={"/todos"}
-          className="underline text-blue-600 hover:text-blue-800"
+          className="flex-1 bg-gray-300 shadow-lg p-4 rounded-lg transform transition-transform duration-300 hover:scale-105 hover:shadow-blue-400"
         >
-          Todo
+          <img
+            src="/Screenshot Todo.png"
+            alt="screenTodo"
+            className="w-full h-auto rounded-lg"
+          />
+          <p className="text-center mt-4 text-lg font-semibold">Todos</p>
         </Link>
         <Link
           to={"/notes"}
-          className="underline text-blue-600 hover:text-blue-800"
+          className="flex-1 bg-gray-300 shadow-lg p-4 rounded-lg transform transition-transform duration-300 hover:scale-105 hover:shadow-green-400"
         >
-          Notes
+          <img
+            src="/Screenshot Notes.png"
+            alt="screenNotes"
+            className="w-full h-auto rounded-lg"
+          />
+          <p className="text-center mt-4 text-lg font-semibold">Notes</p>
         </Link>
       </div>
     </div>
