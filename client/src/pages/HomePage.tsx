@@ -41,7 +41,7 @@ const HomePage = () => {
         >
           <img
             src="/Screenshot Todo.png"
-            alt="screenTodo"
+            alt="screen Todo"
             className="w-full h-auto rounded-lg"
           />
           <p className="text-center mt-4 text-lg font-semibold">Todos</p>
@@ -52,7 +52,7 @@ const HomePage = () => {
         >
           <img
             src="/Screenshot Notes.png"
-            alt="screenNotes"
+            alt="screen Notes"
             className="w-full h-auto rounded-lg"
           />
           <p className="text-center mt-4 text-lg font-semibold">Notes</p>
