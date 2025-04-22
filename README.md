@@ -90,3 +90,43 @@ JWT_SECRET=your_jwt_secret
 ```cd server
 npm start
 ```
+
+5. **Run the Frontend:**
+
+```cd client
+npm start
+```
+
+6. **Access the Application: Open your browser and navigate to http://localhost:5173.**
+
+## **Folder Structure**
+
+### **Frontend (client)**
+
+```client/
+├── src/
+│   ├── components/       # Reusable React components
+│   ├── pages/            # Page components (e.g., HomePage, Login, Register)
+│   ├── slices/           # Redux slices for state management
+│   ├── App.tsx           # Main application component
+│   ├── index.tsx         # Entry point for the React app
+│   └── store.ts          # Redux store configuration
+```
+
+### **Backend (server)**
+
+```server/
+├── src/
+│   ├── controllers/      # API controllers for handling requests
+│   ├── models/           # Mongoose models for MongoDB
+│   ├── routes/           # Express routes
+│   ├── server.ts         # Entry point for the backend
+│   └── middleware/       # Middleware for authentication, etc.
+```
+
+### **Future Improvements**
+
+- Add unit and integration tests.
+- Implement pagination for todos and notes.
+- Add support for file uploads (e.g., attachments for notes).
+- Enhance error handling and validation.
